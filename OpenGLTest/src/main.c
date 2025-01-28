@@ -44,10 +44,10 @@ int main(void)
 
     glViewport(0, 0, win_width, win_height);
 
-    float triangle_vertices[6] = {
-        -0.5f, -0.5f,
-        0.0f, 0.5f,
-        0.5f, -0.5f
+    float triangle_vertices[9] = {
+        -0.5f, -0.5f, 0.0f,
+        0.0f, 0.5f, 0.0f,
+        0.5f, -0.5f, 0.0f
     };
 
     unsigned int vao;
@@ -57,9 +57,9 @@ int main(void)
     unsigned int buffer;
     glGenBuffers(1, &buffer);
     glBindBuffer(GL_ARRAY_BUFFER, buffer);
-    glBufferData(GL_ARRAY_BUFFER, 6 * sizeof(float), triangle_vertices, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, 9 * sizeof(float), triangle_vertices, GL_STATIC_DRAW);
 
-    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), (const void*)0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (const void*)0);
     glEnableVertexAttribArray(0);
 
     glBindVertexArray(0);
@@ -67,11 +67,11 @@ int main(void)
     const char* vertexShaderSource =
         "#version 330 core\n"
         "\n"
-        "layout(location = 0) in vec4 position;\n"
+        "layout(location = 0) in vec3 pos;\n"
         "\n"
         "void main()\n"
         "{\n"
-        "   gl_Position = position;\n"
+        "   gl_Position = vec4(pos.x, pos.y, pos.z, 1.0);\n"
         "}\n";
 
     const char* fragmentShaderSource =
