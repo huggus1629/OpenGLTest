@@ -1,4 +1,5 @@
 #include "shaders.h"
+#include "filetools.h"
 
 #include <glad/glad.h>
 
@@ -17,7 +18,7 @@ unsigned int CompileShader(unsigned int type, const char* shader_source)
 	{
 		int len;
 		glGetShaderiv(shader_id, GL_INFO_LOG_LENGTH, &len);
-		const char* errmsg = calloc(len, sizeof(char));
+		char* errmsg = calloc(len, sizeof(char));
 		if (!errmsg)
 		{
 			printf("Failed to allocate memory, exiting...\n");
@@ -51,4 +52,25 @@ unsigned int CreateShader(const char* vertex_source, const char* fragment_source
 	glDeleteShader(fs_id);
 
 	return program_id;
+}
+
+unsigned int LoadShaders(const char* vShaderPath, const char* fShaderPath)
+{
+	const char* vShaderSource;
+	const char* fShaderSource;
+	
+	vShaderSource = ReadTextFile(vShaderPath);
+	fShaderSource = ReadTextFile(fShaderPath);
+
+	// check if loaded correctly
+	if (!vShaderSource || !fShaderSource)
+	{
+		puts("Error: couldn't read shader contents.");
+		puts("Local variables:");
+		printf("\tvShaderSource:\t0x%p\n", vShaderSource);
+		printf("\tfShaderSource:\t0x%p\n", fShaderSource);
+		return 0;
+	}
+
+	return CreateShader(vShaderSource, fShaderSource);
 }

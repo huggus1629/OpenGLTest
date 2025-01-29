@@ -8,6 +8,8 @@
 
 #define FULLSCREEN 1
 
+#define testvs SHADER_DIR"/basic.vert"
+
 int main(void)
 {
     GLFWwindow* window;
@@ -75,28 +77,8 @@ int main(void)
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 
     glBindVertexArray(0);
-
-    const char* vertexShaderSource =
-        "#version 330 core\n"
-        "\n"
-        "layout(location = 0) in vec3 pos;\n"
-        "\n"
-        "void main()\n"
-        "{\n"
-        "   gl_Position = vec4(pos.xyz, 1.0);\n"
-        "}\n";
-
-    const char* fragmentShaderSource =
-        "#version 330 core\n"
-        "\n"
-        "layout(location = 0) out vec4 color;\n"
-        "\n"
-        "void main()\n"
-        "{\n"
-        "   color = vec4(1.0, 0.0, 0.0, 1.0);\n"
-        "}\n";
     
-    unsigned int shader_id = CreateShader(vertexShaderSource, fragmentShaderSource);
+    unsigned int shader_id = LoadShaders(SHADER_DIR "/basic.vert", SHADER_DIR "/basic.frag");
     glUseProgram(shader_id);
 
     while (!glfwWindowShouldClose(window))
@@ -113,7 +95,7 @@ int main(void)
 
         /* Swap front and back buffers */
         glfwSwapBuffers(window);
-
+        
         /* Poll for and process events */
         glfwPollEvents();
     }
