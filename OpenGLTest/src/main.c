@@ -2,11 +2,15 @@
 #include <GLFW/glfw3.h>
 
 #include <stdio.h>
+#include <math.h>
 
 #include "input.h"
 #include "shaders.h"
+#include "mathdefs.h"
 
 #define FULLSCREEN 1
+#define WINDOW_WIDTH 800
+#define WINDOW_HEIGHT 800
 
 #define testvs SHADER_DIR"/basic.vert"
 
@@ -24,8 +28,8 @@ int main(void)
 
     GLFWmonitor* primary = glfwGetPrimaryMonitor();
     const GLFWvidmode* vidmode = glfwGetVideoMode(primary);
-    const int win_width = FULLSCREEN ? vidmode->width : vidmode->width / 2;
-    const int win_height = FULLSCREEN ? vidmode->height : vidmode->height / 2;
+    const int win_width = FULLSCREEN ? vidmode->width : WINDOW_WIDTH;
+    const int win_height = FULLSCREEN ? vidmode->height : WINDOW_HEIGHT;
 
 
     window = glfwCreateWindow(win_width, win_height, "Test Window", FULLSCREEN ? primary : NULL, NULL);
@@ -42,15 +46,17 @@ int main(void)
         return -2;
     }
 
+    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+
     printf("Using OpenGL Version %s\n\n", glGetString(GL_VERSION));
 
     glViewport(0, 0, win_width, win_height);
 
     float vertices[] = {
-        -0.5f, -0.5f, 0.0f,
-        -0.5f, 0.5f, 0.0f,
-        0.5f, 0.5f, 0.0f,
-        0.5f, -0.5f, 0.0f
+        -1.0f, -1.0f, 0.0f,
+        -1.0f, 1.0f, 0.0f,
+        1.0f, 1.0f, 0.0f,
+        1.0f, -1.0f, 0.0f
     };
 
     unsigned int indices[] = {
@@ -87,6 +93,14 @@ int main(void)
 
         glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
+
+        float time = (float)glfwGetTime();
+        float r = sinf(time) / 2 + 0.5f;
+        float g = sinf(time + (float)(2 * PI / 3)) / 2 + 0.5f;
+        float b = sinf(time + (float)(4 * PI / 3)) / 2 + 0.5f;
+
+        int slp_timedColor = glGetUniformLocation(shader_id, "timedColor");
+        glUniform3f(slp_timedColor, r, g, b);
 
         glBindVertexArray(vao);
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);

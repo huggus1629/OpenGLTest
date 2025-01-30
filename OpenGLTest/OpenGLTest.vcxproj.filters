@@ -27,6 +27,9 @@
     <ClCompile Include="src\shaders.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\filetools.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\input.h">
@@ -35,5 +38,15 @@
     <ClInclude Include="src\shaders.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\filetools.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\mathdefs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="res\shaders\basic.frag" />
+    <None Include="res\shaders\basic.vert" />
   </ItemGroup>
 </Project>

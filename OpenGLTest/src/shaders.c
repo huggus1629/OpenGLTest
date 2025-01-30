@@ -26,7 +26,7 @@ unsigned int CompileShader(unsigned int type, const char* shader_source)
 		}
 
 		glGetShaderInfoLog(shader_id, len, &len, errmsg);
-		printf("Shader compilation failed!\nMore information:\n");
+		printf((type == GL_VERTEX_SHADER) ? "Vertex" : "Fragment" " shader compilation failed!\nMore information:\n");
 		printf(errmsg);
 		free(errmsg);
 
@@ -71,6 +71,8 @@ unsigned int LoadShaders(const char* vShaderPath, const char* fShaderPath)
 		printf("\tfShaderSource:\t0x%p\n", fShaderSource);
 		return 0;
 	}
-
-	return CreateShader(vShaderSource, fShaderSource);
+	unsigned int shader = CreateShader(vShaderSource, fShaderSource);
+	free(vShaderSource);
+	free(fShaderSource);
+	return shader;
 }

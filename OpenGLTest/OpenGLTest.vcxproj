@@ -112,6 +112,10 @@
       <AdditionalLibraryDirectories>$(SolutionDir)Dependencies/GLFW/lib-vc2022;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>$(CoreLibraryDependencies);%(AdditionalDependencies);glfw3.lib;opengl32.lib</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>xcopy /y /e /i "$(ProjectDir)res\shaders" "$(TargetDir)res\shaders"
+</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -132,6 +136,10 @@
       <AdditionalLibraryDirectories>$(SolutionDir)Dependencies/GLFW/lib-vc2022;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>$(CoreLibraryDependencies);%(AdditionalDependencies);glfw3.lib;opengl32.lib</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>xcopy /y /e /i "$(ProjectDir)res\shaders" "$(TargetDir)res\shaders"
+</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\filetools.c" />
@@ -143,6 +151,7 @@
   <ItemGroup>
     <ClInclude Include="src\filetools.h" />
     <ClInclude Include="src\input.h" />
+    <ClInclude Include="src\mathdefs.h" />
     <ClInclude Include="src\shaders.h" />
   </ItemGroup>
   <ItemGroup>
