@@ -99,8 +99,8 @@ int main(void)
         float g = sinf(time + (float)(2 * PI / 3)) / 2 + 0.5f;
         float b = sinf(time + (float)(4 * PI / 3)) / 2 + 0.5f;
 
-        int slp_timedColor = glGetUniformLocation(shader_id, "timedColor");
-        glUniform3f(slp_timedColor, r, g, b);
+        int glslptr_timedColor = glGetUniformLocation(shader_id, "timedColor");
+        glUniform3f(glslptr_timedColor, r, g, b);
 
         glBindVertexArray(vao);
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
