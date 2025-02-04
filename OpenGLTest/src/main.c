@@ -1,6 +1,6 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
-#include <cglm/cglm.h>
+#include <cglm/struct.h>
 
 #include <stdio.h>
 #include <math.h>
