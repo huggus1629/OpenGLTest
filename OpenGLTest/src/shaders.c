@@ -26,7 +26,8 @@ unsigned int CompileShader(unsigned int type, const char* shader_source)
 		}
 
 		glGetShaderInfoLog(shader_id, len, &len, errmsg);
-		printf((type == GL_VERTEX_SHADER) ? "Vertex" : "Fragment" " shader compilation failed!\nMore information:\n");
+		printf((type == GL_VERTEX_SHADER) ? "Vertex" : "Fragment");
+		printf(" shader compilation failed!\nMore information:\n");
 		printf(errmsg);
 		free(errmsg);
 

@@ -1,13 +1,13 @@
 #version 330 core
 
-layout(location = 0) out vec4 color;
+in vec4 vColor;
+in vec2 vTexCoord;
 
-in vec4 vertPos;
+out vec4 oColor;
 
-uniform vec3 timedColor;
+uniform sampler2D uTexture;
 
 void main()
 {
-	color = vec4(timedColor, 1.0);
-	color = color + abs(vec4(vertPos.x, vertPos.x + vertPos.y, vertPos.y, 1.0));
+	oColor = texture(uTexture, vTexCoord);
 }

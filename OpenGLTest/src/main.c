@@ -5,9 +5,12 @@
 #include <stdio.h>
 #include <math.h>
 
+#include "mathdefs.h"
 #include "input.h"
 #include "shaders.h"
-#include "mathdefs.h"
+#include "stb_image.h"
+#include "textures.h"
+
 
 #define FULLSCREEN 1
 #define WINDOW_WIDTH 800
@@ -54,16 +57,43 @@ int main(void)
     glViewport(0, 0, win_width, win_height);
 
     float vertices[] = {
-        -1.0f, -1.0f, 0.0f,
-        -1.0f, 1.0f, 0.0f,
-        1.0f, 1.0f, 0.0f,
-        1.0f, -1.0f, 0.0f
+        // positions                // colors                   // texcoords
+        -0.5f,  -0.5f,  0.0f,       1.0f,   0.0f,   0.0f,       0.0f, 0.0f,     // btm l
+        -0.5f,  0.5f,   0.0f,       0.0f,   1.0f,   0.0f,       0.0f, 1.0f,     // top l
+        0.5f,   0.5f,   0.0f,       0.0f,   0.0f,   1.0f,       1.0f, 1.0f,     // top r
+        0.5f,   -0.5f,  0.0f,       1.0f,   0.0f,   1.0f,       1.0f, 0.0f      // btm r
     };
-
+    unsigned int floats_per_vertex = 8;
     unsigned int indices[] = {
         0, 1, 2,
         2, 3, 0
     };
+
+    // create texture
+    unsigned int texture;
+    glGenTextures(1, &texture);
+    glBindTexture(GL_TEXTURE_2D, texture);
+
+    // set options
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+    // load image
+    int tex_w, tex_h, tex_channels;
+    unsigned char* tex_data = stbi_load(TEXTURE_DIR "/woodfloor0/woodfloor0_Color.png", &tex_w, &tex_h, &tex_channels, 0);
+    if (tex_data)
+    {
+        // apply image to texture
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, tex_w, tex_h, 0, GL_RGB, GL_UNSIGNED_BYTE, tex_data);
+        glGenerateMipmap(GL_TEXTURE_2D);
+    }
+    else
+        printf("Failed to load texture\n");
+
+    stbi_image_free(tex_data);
+    glBindTexture(GL_TEXTURE_2D, 0);  // unbind texture
 
     unsigned int vao;
     glGenVertexArrays(1, &vao);
@@ -74,8 +104,12 @@ int main(void)
     glBindBuffer(GL_ARRAY_BUFFER, vertex_buffer);
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (const void*)0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, floats_per_vertex * sizeof(float), (const void*)0);                     // positions
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, floats_per_vertex * sizeof(float), (const void*)(3 * sizeof(float)));   // colors
+    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, floats_per_vertex * sizeof(float), (const void*)(6 * sizeof(float)));   // texcoords
     glEnableVertexAttribArray(0);
+    glEnableVertexAttribArray(1);
+    glEnableVertexAttribArray(2);
 
     // element buffer object (stores vertex draw order)
     unsigned int ebo;
@@ -95,16 +129,8 @@ int main(void)
         glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 
-        float time = (float)glfwGetTime();
-        float r = sinf(time) / 2 + 0.5f;
-        float g = sinf(time + (float)(2 * PI / 3)) / 2 + 0.5f;
-        float b = sinf(time + (float)(4 * PI / 3)) / 2 + 0.5f;
-
-        int glslptr_timedColor = glGetUniformLocation(shader_id, "timedColor");
-        glUniform3f(glslptr_timedColor, r, g, b);
-
         glBindVertexArray(vao);
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
+        glBindTexture(GL_TEXTURE_2D, texture);
         glDrawElements(GL_TRIANGLES, sizeof(indices) / sizeof(unsigned int), GL_UNSIGNED_INT, 0);
         glBindVertexArray(0);
 

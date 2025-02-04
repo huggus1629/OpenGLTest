@@ -30,6 +30,9 @@
     <ClCompile Include="src\filetools.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\stb_image.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\input.h">
@@ -44,9 +47,32 @@
     <ClInclude Include="src\mathdefs.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\stb_image.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\textures.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="res\shaders\basic.frag" />
     <None Include="res\shaders\basic.vert" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\textures\woodfloor0\woodfloor0_AmbientOcclusion.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\textures\woodfloor0\woodfloor0_Color.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\textures\woodfloor0\woodfloor0_Displacement.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\textures\woodfloor0\woodfloor0_NormalGL.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\textures\woodfloor0\woodfloor0_Roughness.png">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>
