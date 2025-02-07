@@ -130,6 +130,7 @@ int main(void)
         glClear(GL_COLOR_BUFFER_BIT);
 
         glBindVertexArray(vao);
+        glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, texture);
         glDrawElements(GL_TRIANGLES, sizeof(indices) / sizeof(unsigned int), GL_UNSIGNED_INT, 0);
         glBindVertexArray(0);
