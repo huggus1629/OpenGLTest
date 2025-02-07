@@ -20,6 +20,8 @@
 
 int main(void)
 {
+    stbi_set_flip_vertically_on_load(1);
+
     GLFWwindow* window;
 
     if (!glfwInit())
@@ -34,7 +36,6 @@ int main(void)
     const GLFWvidmode* vidmode = glfwGetVideoMode(primary);
     const int win_width = FULLSCREEN ? vidmode->width : WINDOW_WIDTH;
     const int win_height = FULLSCREEN ? vidmode->height : WINDOW_HEIGHT;
-
 
     window = glfwCreateWindow(win_width, win_height, "Test Window", FULLSCREEN ? primary : NULL, NULL);
     if (!window)
@@ -70,30 +71,8 @@ int main(void)
     };
 
     // create texture
-    unsigned int texture;
-    glGenTextures(1, &texture);
-    glBindTexture(GL_TEXTURE_2D, texture);
-
-    // set options
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-    // load image
-    int tex_w, tex_h, tex_channels;
-    unsigned char* tex_data = stbi_load(TEXTURE_DIR "/woodfloor0/woodfloor0_Color.png", &tex_w, &tex_h, &tex_channels, 0);
-    if (tex_data)
-    {
-        // apply image to texture
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, tex_w, tex_h, 0, GL_RGB, GL_UNSIGNED_BYTE, tex_data);
-        glGenerateMipmap(GL_TEXTURE_2D);
-    }
-    else
-        printf("Failed to load texture\n");
-
-    stbi_image_free(tex_data);
-    glBindTexture(GL_TEXTURE_2D, 0);  // unbind texture
+    unsigned int woodfloor = CreateTexture(GL_TEXTURE_2D, "/woodfloor0/woodfloor0_Color.png", GL_RGB, GL_REPEAT);
+    unsigned int trollface = CreateTexture(GL_TEXTURE_2D, "/trollface/trollface.png", GL_RGBA, GL_REPEAT);
 
     unsigned int vao;
     glGenVertexArrays(1, &vao);
@@ -129,9 +108,14 @@ int main(void)
         glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 
+        glUniform1i(glGetUniformLocation(shader_id, "uTexWood"), 0);
+        glUniform1i(glGetUniformLocation(shader_id, "uTexTroll"), 1);
+
         glBindVertexArray(vao);
         glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_2D, texture);
+        glBindTexture(GL_TEXTURE_2D, woodfloor);
+        glActiveTexture(GL_TEXTURE1);
+        glBindTexture(GL_TEXTURE_2D, trollface);
         glDrawElements(GL_TRIANGLES, sizeof(indices) / sizeof(unsigned int), GL_UNSIGNED_INT, 0);
         glBindVertexArray(0);
 

@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-const char* ReadTextFile(const char* fPath)
+char* ReadTextFile(const char* fPath)
 {
     FILE* file = fopen(fPath, "rb");
     if (!file) {

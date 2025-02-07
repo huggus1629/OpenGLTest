@@ -57,8 +57,8 @@ unsigned int CreateShader(const char* vertex_source, const char* fragment_source
 
 unsigned int LoadShaders(const char* vShaderPath, const char* fShaderPath)
 {
-	const char* vShaderSource;
-	const char* fShaderSource;
+	char* vShaderSource;
+	char* fShaderSource;
 	
 	vShaderSource = ReadTextFile(vShaderPath);
 	fShaderSource = ReadTextFile(fShaderPath);
