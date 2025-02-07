@@ -113,7 +113,7 @@
       <AdditionalDependencies>$(CoreLibraryDependencies);%(AdditionalDependencies);glfw3.lib;opengl32.lib</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /y /e /i "$(ProjectDir)res\shaders" "$(TargetDir)res\shaders"
+      <Command>xcopy /y /e /i "$(ProjectDir)res" "$(TargetDir)res"
 </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -137,7 +137,7 @@
       <AdditionalDependencies>$(CoreLibraryDependencies);%(AdditionalDependencies);glfw3.lib;opengl32.lib</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /y /e /i "$(ProjectDir)res\shaders" "$(TargetDir)res\shaders"
+      <Command>xcopy /y /e /i "$(ProjectDir)res" "$(TargetDir)res"
 </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -148,6 +148,7 @@
     <ClCompile Include="src\main.c" />
     <ClCompile Include="src\shaders.c" />
     <ClCompile Include="src\stb_image.c" />
+    <ClCompile Include="src\textures.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\filetools.h" />
@@ -162,6 +163,7 @@
     <None Include="res\shaders\basic.vert" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="res\textures\trollface\trollface.png" />
     <Image Include="res\textures\woodfloor0\woodfloor0_AmbientOcclusion.png" />
     <Image Include="res\textures\woodfloor0\woodfloor0_Color.png" />
     <Image Include="res\textures\woodfloor0\woodfloor0_Displacement.png" />
