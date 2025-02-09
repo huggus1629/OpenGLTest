@@ -68,6 +68,8 @@ int main(void)
         2, 3, 0
     };
 
+    mat4s trans;
+
     // create texture
     unsigned int woodfloor = CreateTexture(GL_TEXTURE_2D, "/woodfloor0/woodfloor0_Color.png", GL_RGB, GL_REPEAT);
     unsigned int trollface = CreateTexture(GL_TEXTURE_2D, "/trollface/trollface.png", GL_RGBA, GL_REPEAT);
@@ -99,12 +101,20 @@ int main(void)
     unsigned int shader_id = LoadShaders(SHADER_DIR "/basic.vert", SHADER_DIR "/basic.frag");
     glUseProgram(shader_id);
 
+    unsigned int glslptr_transform = glGetUniformLocation(shader_id, "transform");
+
     while (!glfwWindowShouldClose(window))
     {
         processInput(window);
 
         glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
+
+        trans = GLMS_MAT4_IDENTITY;
+        trans = glms_translate(trans, (vec3s) { 0.25f, -0.25f, 0.0f });
+        trans = glms_rotate(trans, glfwGetTime(), (vec3s) { 0.0f, 0.0f, 1.0f });
+        trans = glms_scale(trans, (vec3s) { 0.5f, 0.5f, 0.5f });
+        glUniformMatrix4fv(glslptr_transform, 1, GL_FALSE, trans.raw);
 
         glUniform1i(glGetUniformLocation(shader_id, "uTexWood"), 0);
         glUniform1i(glGetUniformLocation(shader_id, "uTexTroll"), 1);
