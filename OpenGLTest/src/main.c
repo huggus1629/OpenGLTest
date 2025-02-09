@@ -12,7 +12,7 @@
 #include "textures.h"
 
 
-#define FULLSCREEN 0
+#define FULLSCREEN 1
 #define WINDOW_WIDTH 800
 #define WINDOW_HEIGHT 800
 
@@ -49,6 +49,7 @@ int main(void)
         return -2;
     }
 
+    glfwSwapInterval(1);
     glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
     printf("Using OpenGL Version %s\n\n", glGetString(GL_VERSION));
