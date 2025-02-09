@@ -12,11 +12,9 @@
 #include "textures.h"
 
 
-#define FULLSCREEN 1
+#define FULLSCREEN 0
 #define WINDOW_WIDTH 800
 #define WINDOW_HEIGHT 800
-
-#define testvs SHADER_DIR"/basic.vert"
 
 int main(void)
 {
