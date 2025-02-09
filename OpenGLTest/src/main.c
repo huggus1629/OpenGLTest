@@ -69,8 +69,6 @@ int main(void)
         2, 3, 0
     };
 
-    mat4s trans;
-
     // create texture
     unsigned int woodfloor = CreateTexture(GL_TEXTURE_2D, "/woodfloor0/woodfloor0_Color.png", GL_RGB, GL_REPEAT);
     unsigned int trollface = CreateTexture(GL_TEXTURE_2D, "/trollface/trollface.png", GL_RGBA, GL_REPEAT);
@@ -102,8 +100,10 @@ int main(void)
     unsigned int shader_id = LoadShaders(SHADER_DIR "/basic.vert", SHADER_DIR "/basic.frag");
     glUseProgram(shader_id);
 
-    unsigned int glslptr_transform = glGetUniformLocation(shader_id, "transform");
-
+    unsigned int glslptr_model = glGetUniformLocation(shader_id, "model");
+    unsigned int glslptr_view = glGetUniformLocation(shader_id, "view");
+    unsigned int glslptr_projection = glGetUniformLocation(shader_id, "projection");
+    
     while (!glfwWindowShouldClose(window))
     {
         processInput(window);
@@ -111,11 +111,17 @@ int main(void)
         glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 
-        trans = GLMS_MAT4_IDENTITY;
-        trans = glms_translate(trans, (vec3s) { 0.25f, -0.25f, 0.0f });
-        trans = glms_rotate(trans, glfwGetTime(), (vec3s) { 0.0f, 0.0f, 1.0f });
-        trans = glms_scale(trans, (vec3s) { 0.5f, 0.5f, 0.5f });
-        glUniformMatrix4fv(glslptr_transform, 1, GL_FALSE, trans.raw);
+        mat4s model = GLMS_MAT4_IDENTITY;
+        mat4s view = GLMS_MAT4_IDENTITY;
+        mat4s projection;
+
+        model = glms_rotate(model, glfwGetTime(), (vec3s) { 1.0f, 0.0f, 0.0f });
+        view = glms_translate(view, (vec3s) { 0.0f, 0.0f, -3.0f });
+        projection = glms_perspective(glm_rad(45.0f), (float)win_width / (float)win_height, 0.1f, 100.0f);
+        
+        glUniformMatrix4fv(glslptr_model, 1, GL_FALSE, model.raw);
+        glUniformMatrix4fv(glslptr_view, 1, GL_FALSE, view.raw);
+        glUniformMatrix4fv(glslptr_projection, 1, GL_FALSE, projection.raw);
 
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, woodfloor);
