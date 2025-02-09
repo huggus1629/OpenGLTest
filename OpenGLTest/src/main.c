@@ -12,7 +12,7 @@
 #include "textures.h"
 
 
-#define FULLSCREEN 1
+#define FULLSCREEN 0
 #define WINDOW_WIDTH 800
 #define WINDOW_HEIGHT 800
 
@@ -117,14 +117,14 @@ int main(void)
         trans = glms_scale(trans, (vec3s) { 0.5f, 0.5f, 0.5f });
         glUniformMatrix4fv(glslptr_transform, 1, GL_FALSE, trans.raw);
 
-        glUniform1i(glGetUniformLocation(shader_id, "uTexWood"), 0);
-        glUniform1i(glGetUniformLocation(shader_id, "uTexTroll"), 1);
-
-        glBindVertexArray(vao);
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, woodfloor);
         glActiveTexture(GL_TEXTURE1);
         glBindTexture(GL_TEXTURE_2D, trollface);
+        glUniform1i(glGetUniformLocation(shader_id, "uTexWood"), 0);
+        glUniform1i(glGetUniformLocation(shader_id, "uTexTroll"), 1);
+
+        glBindVertexArray(vao);
         glDrawElements(GL_TRIANGLES, sizeof(indices) / sizeof(unsigned int), GL_UNSIGNED_INT, 0);
         glBindVertexArray(0);
 
