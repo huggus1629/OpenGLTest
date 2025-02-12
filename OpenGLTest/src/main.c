@@ -161,8 +161,7 @@ int main(void)
         mat4s view = GLMS_MAT4_IDENTITY;
         mat4s projection;
 
-        model = glms_rotate(model, glfwGetTime(), (vec3s) { 1.0f, 0.0f, 0.0f });
-        model = glms_rotate(model, glfwGetTime(), (vec3s) { 0.0f, 1.0f, 0.0f });
+        model = glms_rotate(model, glfwGetTime(), glms_vec3_normalize((vec3s) { 1.0f, 1.0f, 0.0f }));
         view = glms_translate(view, (vec3s) { 0.0f, 0.0f, -3.0f });
         projection = glms_perspective(glm_rad(45.0f), (float)win_width / (float)win_height, 0.1f, 100.0f);
         
