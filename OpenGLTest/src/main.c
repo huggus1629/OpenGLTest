@@ -55,19 +55,65 @@ int main(void)
     printf("Using OpenGL Version %s\n\n", glGetString(GL_VERSION));
 
     glViewport(0, 0, win_width, win_height);
+    glEnable(GL_DEPTH_TEST);
+
+    //float vertices[] = {
+    //    // positions                // colors                   // texcoords
+    //    -0.5f,  -0.5f,  0.0f,       1.0f,   0.0f,   0.0f,       0.0f, 0.0f,     // btm l
+    //    -0.5f,  0.5f,   0.0f,       0.0f,   1.0f,   0.0f,       0.0f, 1.0f,     // top l
+    //    0.5f,   0.5f,   0.0f,       0.0f,   0.0f,   1.0f,       1.0f, 1.0f,     // top r
+    //    0.5f,   -0.5f,  0.0f,       1.0f,   0.0f,   1.0f,       1.0f, 0.0f      // btm r
+    //};
 
     float vertices[] = {
-        // positions                // colors                   // texcoords
-        -0.5f,  -0.5f,  0.0f,       1.0f,   0.0f,   0.0f,       0.0f, 0.0f,     // btm l
-        -0.5f,  0.5f,   0.0f,       0.0f,   1.0f,   0.0f,       0.0f, 1.0f,     // top l
-        0.5f,   0.5f,   0.0f,       0.0f,   0.0f,   1.0f,       1.0f, 1.0f,     // top r
-        0.5f,   -0.5f,  0.0f,       1.0f,   0.0f,   1.0f,       1.0f, 0.0f      // btm r
+        -0.5f, -0.5f, -0.5f, 1.0f,   0.0f,   0.0f, 0.0f, 0.0f,
+         0.5f, -0.5f, -0.5f, 0.0f,   1.0f,   0.0f, 1.0f, 0.0f,
+         0.5f,  0.5f, -0.5f, 0.0f,   0.0f,   1.0f, 1.0f, 1.0f,
+         0.5f,  0.5f, -0.5f, 1.0f,   0.0f,   0.0f, 1.0f, 1.0f,
+        -0.5f,  0.5f, -0.5f, 0.0f,   1.0f,   0.0f, 0.0f, 1.0f,
+        -0.5f, -0.5f, -0.5f, 0.0f,   0.0f,   1.0f, 0.0f, 0.0f,
+
+        -0.5f, -0.5f,  0.5f, 1.0f,   0.0f,   0.0f, 0.0f, 0.0f,
+         0.5f, -0.5f,  0.5f, 0.0f,   1.0f,   0.0f, 1.0f, 0.0f,
+         0.5f,  0.5f,  0.5f, 0.0f,   0.0f,   1.0f, 1.0f, 1.0f,
+         0.5f,  0.5f,  0.5f, 1.0f,   0.0f,   0.0f, 1.0f, 1.0f,
+        -0.5f,  0.5f,  0.5f, 0.0f,   1.0f,   0.0f, 0.0f, 1.0f,
+        -0.5f, -0.5f,  0.5f, 0.0f,   0.0f,   1.0f, 0.0f, 0.0f,
+
+        -0.5f,  0.5f,  0.5f, 1.0f,   0.0f,   0.0f, 1.0f, 0.0f,
+        -0.5f,  0.5f, -0.5f, 0.0f,   1.0f,   0.0f, 1.0f, 1.0f,
+        -0.5f, -0.5f, -0.5f, 0.0f,   0.0f,   1.0f, 0.0f, 1.0f,
+        -0.5f, -0.5f, -0.5f, 1.0f,   0.0f,   0.0f, 0.0f, 1.0f,
+        -0.5f, -0.5f,  0.5f, 0.0f,   1.0f,   0.0f, 0.0f, 0.0f,
+        -0.5f,  0.5f,  0.5f, 0.0f,   0.0f,   1.0f, 1.0f, 0.0f,
+
+         0.5f,  0.5f,  0.5f, 1.0f,   0.0f,   0.0f, 1.0f, 0.0f,
+         0.5f,  0.5f, -0.5f, 0.0f,   1.0f,   0.0f, 1.0f, 1.0f,
+         0.5f, -0.5f, -0.5f, 0.0f,   0.0f,   1.0f, 0.0f, 1.0f,
+         0.5f, -0.5f, -0.5f, 1.0f,   0.0f,   0.0f, 0.0f, 1.0f,
+         0.5f, -0.5f,  0.5f, 0.0f,   1.0f,   0.0f, 0.0f, 0.0f,
+         0.5f,  0.5f,  0.5f, 0.0f,   0.0f,   1.0f, 1.0f, 0.0f,
+
+        -0.5f, -0.5f, -0.5f, 1.0f,   0.0f,   0.0f, 0.0f, 1.0f,
+         0.5f, -0.5f, -0.5f, 0.0f,   1.0f,   0.0f, 1.0f, 1.0f,
+         0.5f, -0.5f,  0.5f, 0.0f,   0.0f,   1.0f, 1.0f, 0.0f,
+         0.5f, -0.5f,  0.5f, 1.0f,   0.0f,   0.0f, 1.0f, 0.0f,
+        -0.5f, -0.5f,  0.5f, 0.0f,   1.0f,   0.0f, 0.0f, 0.0f,
+        -0.5f, -0.5f, -0.5f, 0.0f,   0.0f,   1.0f, 0.0f, 1.0f,
+
+        -0.5f,  0.5f, -0.5f, 1.0f,   0.0f,   0.0f, 0.0f, 1.0f,
+         0.5f,  0.5f, -0.5f, 0.0f,   1.0f,   0.0f, 1.0f, 1.0f,
+         0.5f,  0.5f,  0.5f, 0.0f,   0.0f,   1.0f, 1.0f, 0.0f,
+         0.5f,  0.5f,  0.5f, 1.0f,   0.0f,   0.0f, 1.0f, 0.0f,
+        -0.5f,  0.5f,  0.5f, 0.0f,   1.0f,   0.0f, 0.0f, 0.0f,
+        -0.5f,  0.5f, -0.5f, 0.0f,   0.0f,   1.0f, 0.0f, 1.0f
     };
+
     unsigned int floats_per_vertex = 8;
-    unsigned int indices[] = {
+    /*unsigned int indices[] = {
         0, 1, 2,
         2, 3, 0
-    };
+    };*/
 
     // create texture
     unsigned int woodfloor = CreateTexture(GL_TEXTURE_2D, "/woodfloor0/woodfloor0_Color.png", GL_RGB, GL_REPEAT);
@@ -90,10 +136,10 @@ int main(void)
     glEnableVertexAttribArray(2);
 
     // element buffer object (stores vertex draw order)
-    unsigned int ebo;
+    /*unsigned int ebo;
     glGenBuffers(1, &ebo);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);*/
 
     glBindVertexArray(0);
     
@@ -109,13 +155,14 @@ int main(void)
         processInput(window);
 
         glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
-        glClear(GL_COLOR_BUFFER_BIT);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         mat4s model = GLMS_MAT4_IDENTITY;
         mat4s view = GLMS_MAT4_IDENTITY;
         mat4s projection;
 
         model = glms_rotate(model, glfwGetTime(), (vec3s) { 1.0f, 0.0f, 0.0f });
+        model = glms_rotate(model, glfwGetTime(), (vec3s) { 0.0f, 1.0f, 0.0f });
         view = glms_translate(view, (vec3s) { 0.0f, 0.0f, -3.0f });
         projection = glms_perspective(glm_rad(45.0f), (float)win_width / (float)win_height, 0.1f, 100.0f);
         
@@ -131,7 +178,8 @@ int main(void)
         glUniform1i(glGetUniformLocation(shader_id, "uTexTroll"), 1);
 
         glBindVertexArray(vao);
-        glDrawElements(GL_TRIANGLES, sizeof(indices) / sizeof(unsigned int), GL_UNSIGNED_INT, 0);
+        //glDrawElements(GL_TRIANGLES, sizeof(indices) / sizeof(unsigned int), GL_UNSIGNED_INT, 0);
+        glDrawArrays(GL_TRIANGLES, 0, sizeof(vertices) / sizeof(float) / floats_per_vertex);
         glBindVertexArray(0);
 
         /* Swap front and back buffers */
