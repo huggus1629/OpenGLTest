@@ -142,6 +142,7 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\camera.c" />
     <ClCompile Include="src\filetools.c" />
     <ClCompile Include="src\glad.c" />
     <ClCompile Include="src\input.c" />
@@ -151,6 +152,7 @@
     <ClCompile Include="src\textures.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\camera.h" />
     <ClInclude Include="src\filetools.h" />
     <ClInclude Include="src\input.h" />
     <ClInclude Include="src\mathdefs.h" />

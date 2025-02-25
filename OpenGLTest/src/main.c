@@ -10,7 +10,7 @@
 #include "shaders.h"
 #include "stb_image.h"
 #include "textures.h"
-
+#include "camera.h"
 
 #define FULLSCREEN 0
 #define WINDOW_WIDTH 800
@@ -51,11 +51,23 @@ int main(void)
 
     glfwSwapInterval(1);
     glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+    if (glfwRawMouseMotionSupported())
+        glfwSetInputMode(window, GLFW_RAW_MOUSE_MOTION, GLFW_TRUE);
 
     printf("Using OpenGL Version %s\n\n", glGetString(GL_VERSION));
 
     glViewport(0, 0, win_width, win_height);
     glEnable(GL_DEPTH_TEST);
+
+    glfwSetCursorPosCallback(window, Clbk_Mouse);
+
+    Camera globalCam;
+    InitCameraYp(&globalCam, window, (float)(win_width / 2), (float)(win_height / 2),
+        (vec3s) { 0.0f, 0.0f, 5.0f },   // position
+        90.0f, 0.0f,                     // yaw, pitch
+        (vec3s) { 0.0f, 1.0f, 0.0f },   // world up vec
+        2.0f,                           // mvmt speed
+        0.1f);                          // look sens
 
     //float vertices[] = {
     //    // positions                // colors                   // texcoords
@@ -152,18 +164,21 @@ int main(void)
     
     while (!glfwWindowShouldClose(window))
     {
-        processInput(window);
+        CamUpdateDT(&globalCam);
+        ProcessKBInput(window, &globalCam);
 
         glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         mat4s model = GLMS_MAT4_IDENTITY;
-        mat4s view = GLMS_MAT4_IDENTITY;
+        mat4s view;
         mat4s projection;
 
+        //CamSetYaw(&globalCam, 90 + glm_deg(glfwGetTime()));
+
         model = glms_rotate(model, glfwGetTime(), glms_vec3_normalize((vec3s) { 1.0f, 1.0f, 0.0f }));
-        view = glms_translate(view, (vec3s) { 0.0f, 0.0f, -3.0f });
-        projection = glms_perspective(glm_rad(90.0f), (float)win_width / (float)win_height, 0.1f, 100.0f);
+        view = GetViewMatrix(&globalCam);
+        projection = glms_perspective(glm_rad(60.0f), (float)win_width / (float)win_height, 0.1f, 100.0f);
 
         glUniformMatrix4fv(glslptr_model, 1, GL_FALSE, model.raw);
         glUniformMatrix4fv(glslptr_view, 1, GL_FALSE, view.raw);
