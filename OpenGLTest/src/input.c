@@ -14,6 +14,10 @@ void ProcessKBInput(GLFWwindow* window, Camera* cam)
 		CamProcessKB(cam, BACKWARD);
 	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
 		CamProcessKB(cam, RIGHT);
+	if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS)
+		CamProcessKB(cam, UP);
+	if (glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) == GLFW_PRESS)
+		CamProcessKB(cam, DOWN);
 }
 
 void Clbk_Mouse(GLFWwindow* window, double xposIn, double yposIn)

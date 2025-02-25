@@ -41,7 +41,9 @@ typedef enum mvmt_dir
 	FORWARD,
 	BACKWARD,
 	LEFT,
-	RIGHT
+	RIGHT,
+	UP,
+	DOWN
 } CamMovementDirection;
 
 void InitCameraYp(Camera* cam, GLFWwindow* window, float w_mid, float h_mid, vec3s pos, float y_deg, float p_deg, vec3s wUp, float spd, float sens);

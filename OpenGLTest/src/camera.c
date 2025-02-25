@@ -41,6 +41,10 @@ void CamProcessKB(Camera* cam, CamMovementDirection dir)
 		cam->pos = glms_vec3_sub(cam->pos, glms_vec3_scale(cam->right, v));
 	if (dir == RIGHT)
 		cam->pos = glms_vec3_add(cam->pos, glms_vec3_scale(cam->right, v));
+	if (dir == UP)
+		cam->pos = glms_vec3_add(cam->pos, glms_vec3_scale(cam->worldUp, v));
+	if (dir == DOWN)
+		cam->pos = glms_vec3_sub(cam->pos, glms_vec3_scale(cam->worldUp, v));
 }
 
 void CamProcessMouse(Camera* cam)
